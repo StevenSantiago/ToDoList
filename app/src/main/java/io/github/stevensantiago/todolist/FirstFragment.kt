@@ -7,11 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class FirstFragment : Fragment() {
+
+    lateinit var toDoListRecyclerView: RecyclerView
+    var sampleList: List<String> = listOf("Number One", "Number Two", "Number Three")
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -27,5 +31,8 @@ class FirstFragment : Fragment() {
         view.findViewById<Button>(R.id.button_first).setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
+
+        toDoListRecyclerView = view.findViewById(R.id.recycleView)
+        toDoListRecyclerView.adapter = ToDoListAdapter(sampleList)
     }
 }
