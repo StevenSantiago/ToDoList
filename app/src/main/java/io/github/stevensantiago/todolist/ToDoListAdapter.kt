@@ -7,7 +7,14 @@ import android.widget.AdapterView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ToDoListAdapter(val items: List<String>): RecyclerView.Adapter<ToDoListViewHolder>() {
+class ToDoListAdapter: RecyclerView.Adapter<ToDoListViewHolder>() {
+
+
+    var sampleList  = mutableListOf("Number One", "Number Two", "Number Three")
+    fun addNewItem() {
+        sampleList.add("Number " + (sampleList.size + 1))
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToDoListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.todo_list_viewholder, parent, false)
@@ -15,11 +22,11 @@ class ToDoListAdapter(val items: List<String>): RecyclerView.Adapter<ToDoListVie
     }
 
     override fun getItemCount(): Int {
-       return items.size
+       return sampleList.size
     }
 
     override fun onBindViewHolder(holder: ToDoListViewHolder, position: Int) {
-        holder.listTitleTextView.text = items[position]
+        holder.listTitleTextView.text = sampleList[position]
         holder.listPositionTextView.text = (position + 1).toString()
     }
 }

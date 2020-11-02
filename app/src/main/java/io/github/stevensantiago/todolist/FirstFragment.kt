@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -15,7 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 class FirstFragment : Fragment() {
 
     lateinit var toDoListRecyclerView: RecyclerView
-    var sampleList: List<String> = listOf("Number One", "Number Two", "Number Three")
+    var actionButton: FloatingActionButton? = null
+
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +35,17 @@ class FirstFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
 
+
+
         toDoListRecyclerView = view.findViewById(R.id.recycleView)
-        toDoListRecyclerView.adapter = ToDoListAdapter(sampleList)
+        toDoListRecyclerView.adapter = ToDoListAdapter()
+
+        actionButton = activity?.findViewById(R.id.fab)
+
+        actionButton?.setOnClickListener {
+            val adapter = toDoListRecyclerView.adapter as ToDoListAdapter
+            adapter.addNewItem()
+        }
+
     }
 }
