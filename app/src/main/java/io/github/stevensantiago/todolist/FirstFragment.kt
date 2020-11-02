@@ -22,7 +22,11 @@ class FirstFragment : Fragment() {
 
     lateinit var toDoListRecyclerView: RecyclerView
     lateinit var parentContext: Context
+
+    lateinit var listManager: ListDataManager
+    lateinit var list:  ArrayList<TaskList>
     var actionButton: FloatingActionButton? = null
+
 
 
     override fun onCreateView(
@@ -30,6 +34,7 @@ class FirstFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        list = listManager.readLists()
         return inflater.inflate(R.layout.fragment_first, container, false)
     }
 
@@ -43,7 +48,7 @@ class FirstFragment : Fragment() {
 
 
         toDoListRecyclerView = view.findViewById(R.id.recycleView)
-        toDoListRecyclerView.adapter = ToDoListAdapter()
+        toDoListRecyclerView.adapter = ToDoListAdapter(list)
 
         actionButton = activity?.findViewById(R.id.fab)
 
@@ -51,11 +56,13 @@ class FirstFragment : Fragment() {
             showCreateTodoListDialog(parentContext)
         }
 
+
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         parentContext = context
+        listManager = ListDataManager(context)
     }
 
     private fun showCreateTodoListDialog(context: Context) {
@@ -70,7 +77,9 @@ class FirstFragment : Fragment() {
         myDialog.setPositiveButton(buttonTitle) {
                 dialog, _ ->
             val adapter = toDoListRecyclerView.adapter as ToDoListAdapter
-            adapter.addNewItem(todoTitleEditText.text.toString())
+            val list = TaskList(todoTitleEditText.text.toString())
+            listManager.saveList(list)
+            adapter.addList(list)
             dialog.dismiss()
         }
         myDialog.create().show()
