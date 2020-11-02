@@ -11,8 +11,8 @@ class ToDoListAdapter: RecyclerView.Adapter<ToDoListViewHolder>() {
 
 
     var sampleList  = mutableListOf("Number One", "Number Two", "Number Three")
-    fun addNewItem() {
-        sampleList.add("Number " + (sampleList.size + 1))
+    fun addNewItem(item: String) {
+        sampleList.add(item)
         notifyDataSetChanged()
     }
 
