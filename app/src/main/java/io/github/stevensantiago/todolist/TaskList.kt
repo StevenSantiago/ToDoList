@@ -1,5 +1,5 @@
 package io.github.stevensantiago.todolist
 
-class TaskList( name: String,  tasks: ArrayList<String> = ArrayList()) {
+class TaskList(val name: String,val tasks: ArrayList<String> = ArrayList()) {
 
 }
