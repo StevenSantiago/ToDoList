@@ -1,5 +1,6 @@
 package io.github.stevensantiago.todolist
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import com.google.android.material.snackbar.Snackbar
@@ -44,4 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showTaskListItems(list: TaskList) {
+        val taskListItem = Intent(this, DetailActivity::class.java)
+    }
 }

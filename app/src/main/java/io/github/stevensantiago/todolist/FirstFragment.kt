@@ -1,6 +1,7 @@
 package io.github.stevensantiago.todolist
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import androidx.fragment.app.Fragment
@@ -13,12 +14,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.github.stevensantiago.todolist.FirstFragment.Companion.INTENT_LIST_KEY
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class FirstFragment : Fragment(), ToDoListAdapter.TodoListClickListener {
 
     lateinit var toDoListRecyclerView: RecyclerView
     lateinit var parentContext: Context
@@ -27,7 +29,9 @@ class FirstFragment : Fragment() {
     lateinit var list:  ArrayList<TaskList>
     var actionButton: FloatingActionButton? = null
 
-
+    companion object {
+        const val INTENT_LIST_KEY = "list"
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +52,7 @@ class FirstFragment : Fragment() {
 
 
         toDoListRecyclerView = view.findViewById(R.id.recycleView)
-        toDoListRecyclerView.adapter = ToDoListAdapter(list)
+        toDoListRecyclerView.adapter = ToDoListAdapter(list, this)
 
         actionButton = activity?.findViewById(R.id.fab)
 
@@ -81,7 +85,18 @@ class FirstFragment : Fragment() {
             listManager.saveList(list)
             adapter.addList(list)
             dialog.dismiss()
+            showTaskListItems(list)
         }
         myDialog.create().show()
+    }
+
+    private fun showTaskListItems(list: TaskList) {
+        val taskListItem = Intent(parentContext, DetailActivity::class.java)//Intent(this, DetailActivity::class.java)
+        taskListItem.putExtra(INTENT_LIST_KEY, list)
+        startActivity(taskListItem)
+    }
+
+    override fun listItemClicked(list: TaskList) {
+        showTaskListItems(list)
     }
 }
